@@ -493,9 +493,15 @@ unsigned char* unbase64( const char* ascii, int len, int *flen )
                                  NILABLE(productId),
                                  NILABLE(transactionReceipt),
                                  nil];
+
+/*        
         NSString *js = [NSString
             stringWithFormat:@"window.storekit.updatedTransactionCallback.apply(window.storekit, %@)",
             [callbackArgs JSONSerialize]];
+
+      */
+        NSString *js = [NSString stringWithFormat:@"window.storekit.updatedTransactionCallback.apply(window.storekit, ['%@'])", [callbackArgs componentsJoinedByString:@"','"]];
+
         // DLog(@"js: %@", js);
         [self.commandDelegate evalJs:js];
 
@@ -522,9 +528,12 @@ unsigned char* unbase64( const char* ascii, int len, int *flen )
                                 NILABLE(transaction.payment.productIdentifier),
                                 NILABLE(nil),
                                 nil];
-    NSString *js = [NSString
+/*    NSString *js = [NSString
       stringWithFormat:@"window.storekit.updatedTransactionCallback.apply(window.storekit, %@)",
-      [callbackArgs JSONSerialize]];
+      [callbackArgs JSONSerialize]]; */
+
+    NSString *js = [NSString stringWithFormat:@"window.storekit.updatedTransactionCallback.apply(window.storekit, ['%@'])", [callbackArgs componentsJoinedByString:@"','"]];      
+
     [self.commandDelegate evalJs:js];
 }
 
@@ -807,9 +816,14 @@ static NSString *rootAppleCA = @"MIIEuzCCA6OgAwIBAgIBAjANBgkqhkiG9w0BAQUFADBiMQs
                                  NILABLE(progress_s),
                                  NILABLE(timeRemaining_s),
                                  nil];
-        js = [NSString
+/*        js = [NSString
                         stringWithFormat:@"window.storekit.updatedDownloadCallback.apply(window.storekit, %@)",
                         [callbackArgs JSONSerialize]];
+                        */
+        js = [NSString
+                        stringWithFormat:@"window.storekit.updatedDownloadCallback.apply(window.storekit, ['%@'])",
+                        [callbackArgs componentsJoinedByString:@"','"]];
+
         [self.commandDelegate evalJs:js];
         
     }
